@@ -36,11 +36,11 @@ app.post('/search', function(req,res){
         return item.buzzword == user_input;
     });
     if(success == undefined) {
-        var fail_message = "Sorry. " + user_input + " not found."
+        var fail_message = '<div style="font: 16px arial; color: #999; padding: 50px;">Sorry.<br><span style="font: bold 22px arial">' + user_input + "</span><br>not found.</div>"
         res.send(fail_message);
     } else {
-        var success_message = "Success! " + user_input
-            + " means " + success.plain + "!";
+        var success_message = '<div style="font: 16px arial; color: #999; padding: 50px;">Success!<br><span style="font: bold 22px arial">' + user_input
+            + "</span><br>means " + success.plain + "</div>!";
         res.send(success_message);
     }
 });
