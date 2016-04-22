@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({ extended: true}));  //  support encoded bodies
 app.use(express.static(__dirname + "/public"));
 
 var data = [
-        {buzzword: "iot", plain: "Random stuff that's connected to the web"},
+        {buzzword: "IOT", plain: "Random stuff that's connected to the web"},
         {buzzword: "dom", plain: "Code that makes up a web page"},
         {buzzword: "woff", plain: "Free fonts"},
         {buzzword: "geolocation", plain: "Where are you now?"},
@@ -33,7 +33,7 @@ app.post('/search', function(req,res){
     res.type("text/html");
     var user_input = req.body.search_term;
     var success = data.find(function(item) {
-        return item.buzzword == user_input;
+        return item.buzzword.toLowerCase() == user_input.toLowerCase();
     });
     if(success == undefined) {
         var fail_message = '<div style="font: 16px arial; color: #999; padding: 50px;">Sorry.<br><span style="font: bold 22px arial">' + user_input + "</span><br>not found.</div>"
