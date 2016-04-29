@@ -19,17 +19,25 @@ app.get('/about', function(req,res){
     res.sendfile("./public/about.html");
 });
 
+//  define some reusable html tags for success and fail
+//  message definition
+var startOuter = '<div style="font: 16px arial; color: #999; padding: 50px;">';
+var startInner = '<div style="font: bold 22px arial">';
+var endTag = '</div>';
+
 app.post('/search', function(req,res){
     res.type("text/html");
     var user_input = req.body.search_term;
     var success = jargon.getJargon(user_input);
     if(success == undefined) {
-        var fail_message = '<div style="font: 16px arial; color: #999; padding: 50px;">Sorry.<br><span style="font: bold 22px arial">' + user_input
-        + "</span><br>not found.</div><br>"
+        var fail_message = startOuter + 'Sorry.' 
+            + startInner + user_input + endTag
+            + 'not found.' + endTag;
         res.send(fail_message);
     } else {
-        var success_message = '<div style="font: 16px arial; color: #999; padding: 50px;">Success!<br><span style="font: bold 22px arial">' + user_input
-            + "</span><br>means " + success.plain + "</div>!";
+        var success_message = startOuter + 'Success!'
+            + startInner + user_input + endTag
+            + 'means ' + success.plain + endTag;
         res.send(success_message);
     }
 });
@@ -39,12 +47,15 @@ app.post('/update', function(req,res){
     var user_term = req.body.search_term;
     var user_definition = req.body.definition;
     var success = jargon.updateJargon(user_term, user_definition);
-    if(success == undefined || user_definition.length < 2) {
-        var fail_message = "fail";
+    if(success == undefined || user_definition.length < 10) {
+        var fail_message = startOuter + 'Sorry. The definition for'
+            + startInner + user_term + endTag
+            + 'did not update.' + endTag;
         res.send(fail_message);
     } else {
-        var success_message = '<div style="font: 16px arial; color: #999; padding: 50px;">Success!<br><span style="font: bold 22px arial">' + success.buzzword
-             + "</span><br>is now defined as " + success.plain + "</div>!";
+        var success_message = startOuter + 'Success!'
+            + startInner + success.buzzword + endTag
+            + 'is now defined as ' + success.plain + endTag;
         res.send(success_message);
     }
 });
@@ -56,10 +67,15 @@ app.post('/add', function(req,res){
     var term_exists = jargon.getJargon(user_term);
     var success = jargon.addJargon(user_term,user_definition);
     if(success == undefined || term_exists != undefined) {
-        var fail_message = "fail";
+        var fail_message = startOuter + 'Sorry.'
+            + startInner + user_term + endTag
+            + 'was not added.' + endTag;
         res.send(fail_message);
     } else {
-        var success_message = "term added";
+        var success_message = startOuter + 'Success!'
+            + startInner + success.buzzword + endTag
+            + 'has been added! It means ' + success.plain + endTag;
+            
         res.send(success_message);
     }
 });
@@ -70,10 +86,13 @@ app.post('/remove', function(req,res){
     var term_exists = jargon.getJargon(user_term);
     var success = jargon.removeJargon(user_term);
     if(success == undefined || term_exists == undefined) {
-        var fail_message = 'fail';
+        var fail_message = startOuter + 'Sorry. We were unable to remove'
+            + startInner + user_term + endTag + endTag;
         res.send(fail_message);
     } else {
-        var success_message = "term deleted";
+        var success_message = startOuter + 'Success!'
+            + startInner + user_term + endTag
+            + 'has been removed!' + endTag;
         res.send(success_message);
     }
 });
