@@ -22,6 +22,25 @@
                 font-size: 22px;
                 font-weight: bold;
             }
+            input[type="text"]{
+                border: 2px solid #999;
+                font-size: 16px;
+                padding: 5px;
+                margin: 5px 0 10px;
+            }
+            input[type="submit"] {
+                border: 2px solid #999;
+                border-radius: 0;
+                font-size: 16px;
+                color: #999;
+                background-color: #fff;
+                padding: 5px;
+                transition: color .4s ease, background-color .4s ease;
+            }
+            input[type="submit"]:hover {
+                background-color: #999;
+                color: #fff;
+            }
         </style>
     </head>
     <body>
@@ -29,8 +48,12 @@
             <div class="title">HOME!</div>
             <div class="content">Home is where the heart is.</div>
             <form action="/search" method="POST">
-                <input type="text" name="search_term"/>
-                <input type="submit" value="Submit"/>
+                <input type="text" name="search_term" placeholder="Jargon"/><br>
+                <input type="text" name="definition" placeholder="Definition"/><br>
+                <input type="submit" name="search" value="Search"/>
+                <input type="submit" name="update" value="Update"/>
+                <input type="submit" name="add" value="Add"/>
+                <input type="submit" name="remove" value="Remove"/>
             </form>
         </div>
     </body>
