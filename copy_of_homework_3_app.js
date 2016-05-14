@@ -1,12 +1,8 @@
 var express = require('express');
-var exphbs = require('express-handlebars');
 var bodyParser = require('body-parser');
 var jargon = require('./lib/jargon.js');
 
 var app = express();
-
-app.engine('handlebars', exphbs({defaultLayout: 'master'}));
-app.set('view engine', 'handlebars');
 
 app.use(bodyParser.json()); //  support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true}));  //  support encoded bodies
@@ -15,7 +11,7 @@ app.use(express.static(__dirname + "/public"));
 
 app.get('/', function(req,res){
     res.type("text/html");
-    res.render('home', { data: jargon.getMaster(), json_data: JSON.stringify(jargon.getMaster()) });
+    res.sendfile("./public/home.html");
 });
 
 app.get('/about', function(req,res){
@@ -40,7 +36,7 @@ app.post('/search', function(req,res){
         res.send(fail_message);
     } else {
         var success_message = startOuter + 'Success!'
-            + startInner + success.term + endTag
+            + startInner + user_input + endTag
             + 'means ' + success.definition + endTag;
         res.send(success_message);
     }
@@ -100,7 +96,6 @@ app.post('/remove', function(req,res){
         res.send(success_message);
     }
 });
-
 
 
 app.use(function(req, res, next){

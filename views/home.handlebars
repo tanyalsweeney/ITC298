@@ -1,3 +1,12 @@
-<h1>I'm home, people! Toot toot!</h1>
-<h2>Click here to search for a thing!</h2>
+<div class="detail_term">TERM</div>
+<div class="detail_definitions">Definitions</div>
 
+<script type="text/javascript">
+	$(document).ready(function(){
+		console.log("inside the document.ready");
+		var displayTerm = $('.active').text();
+		console.log(displayTerm);
+	});
+
+	console.log("outside the document.ready");
+</script>

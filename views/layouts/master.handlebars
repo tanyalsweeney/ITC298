@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+	<head>
+		<style type="text/css">
+			.outer_countainer,
+			.outer_countainer *{
+				font: 20px arial;
+				color: #666;
+				box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				-webkit-box-sizing: border-box;
+			}
+			body,
+			.outer_countainer{
+				margin: 0;
+				width: 100%;
+				min-height: 1000px;
+				background-color: #ddd;
+			}
+			.container{
+				width: 800px;
+				min-height: 1000px;
+				margin: 0 auto;
+				background-color: #fff;
+			}
+			.top_nav{
+				background-color: #666;
+				color: #fff;
+				padding: 20px 50px;
+			}
+			#logo{
+				display: inline-block;
+				margin-top: -5px;
+				font: bold 50px serif;
+				color: #fff;
+			}
+			.left_column{
+				float: left;
+				width: 35%;
+				min-height: 906px;
+				padding: 20px;
+				background-color: #fff;
+			}
+			#master_form{}
+			#input_field{
+				display: inline-block;
+				width: 75%;
+				margin: 0 0 20px;
+				padding: 10px;
+				font-size: 16px;
+			}
+			#search{}
+			#add{
+			    display: block;
+				margin: 20px 0;
+				padding: 15px;
+				width: 100%;
+				border: 2px solid #666;
+				background-color: #fff;
+				color: #666;
+				transition: color .4s ease, background-color .4s ease;
+			}
+			#add:hover{
+				background-color: #666;
+				color: #fff;
+			}
+			.terms{
+				border: 2px solid #666;
+				padding: 5px;
+				min-height: 680px;
+			}
+			.terms div {
+				line-height: 2;
+				padding: 5px 15px;
+				transition: background-color .6s ease, color .6s ease;
+				-moz-transition: background-color .6s ease, color .6s ease;
+				-webkit-transition: background-color .6s ease, color .6s ease;
+			}
+			.terms div:hover,
+			.terms div.active{
+				background-color: #666;
+				color: #fff;
+			}
+			.right_column{
+				float: left;
+				width: 65%;
+				min-height: 906px;
+				background-color: rgba(0,0,255,.2);
+				padding: 20px;
+			}
+			.footer{}
+		</style>
+	</head>
+	<body>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	    <script>
+            {{#if json_data}}
+            	var my_data = {{{json_data}}}
+            {{/if}}
+        </script>
+		<div class="outer_countainer">
+			<div class="container">
+				<div class="top_nav">
+					<div id="logo">j*</div>
+				</div>
+
+				<div class="left_column">
+					<form id="master_form" action="" method="POST">
+						<input id="input_field" type="text" name="search_term" placeholder="Jargon"/>
+						<button id="search">Search</button><br>
+						<button id="add">Add Jargon</button>
+					</form>
+					<div class="terms">
+						{{#each data}}
+							<div>{{term}}</div>
+						{{/each}}
+					</div>
+				</div>
+
+				<div class="right_column">
+					DETAIL WILL GO HERE
+					{{{body}}}
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('#master_form').on('click', 'button', function() {
+					var theRoute = "/" + $(this).attr('id');
+					$('#master_form').attr('action', theRoute);
+					console.log(theRoute);
+				});
+				
+				$('.terms').on('click', 'div', function(){
+					$('.terms div').removeClass('active');
+					$(this).addClass('active');
+				});
+				
+				$('.terms div:first-child').click();
+			});
+		</script>
+	</body>
+</html>

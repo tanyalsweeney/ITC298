@@ -22,19 +22,17 @@
                 font-size: 22px;
                 font-weight: bold;
             }
-            input[type="text"]{
-                border: 2px solid #999;
-                font-size: 16px;
-                padding: 5px;
-                margin: 5px 0 10px;
-            }
+            input[type="text"],
             button {
                 border: 2px solid #999;
-                border-radius: 0;
                 font-size: 16px;
+                padding: 5px;
+                margin: 5px 5px 10px 0;
+            }
+            button {
+                border-radius: 0;
                 color: #999;
                 background-color: #fff;
-                padding: 5px;
                 transition: color .4s ease, background-color .4s ease;
             }
             button:hover {
@@ -62,7 +60,7 @@
                 $('#jargonatr').on('click', 'button', function(){
                     var theRoute = "/" + $(this).attr('id');
                     $('#jargonatr').attr('action', theRoute);
-                    //console.log(theRoute);
+                    console.log(theRoute);
                 });
             });
         </script>
