@@ -16,6 +16,7 @@
 				width: 100%;
 				min-height: 1000px;
 				background-color: #ddd;
+				overflow: hidden;
 			}
 			.container{
 				width: 800px;
@@ -44,12 +45,32 @@
 			#master_form{}
 			#input_field{
 				display: inline-block;
-				width: 75%;
+				width: 80%;
 				margin: 0 0 20px;
 				padding: 10px;
 				font-size: 16px;
+				border: 1px solid #666;
 			}
-			#search{}
+			#def_field{
+				display: block;
+				width: 100%;
+				padding: 10px;
+				font-size: 16px;
+				border: 1px solid #666;
+			}
+			#input_field:hover,
+			#def_field:hover{
+				border: 2px solid #666;
+				padding: 9px;
+			}
+			#search{
+				height: 36px;
+				margin-top: 4px;
+				float: right;
+			}
+			#search:hover{
+				cursor: pointer;
+			}
 			#add{
 			    display: block;
 				margin: 20px 0;
@@ -72,6 +93,7 @@
 			.terms div {
 				line-height: 2;
 				padding: 5px 15px;
+				border-bottom: 1px solid #fff;
 				transition: background-color .6s ease, color .6s ease;
 				-moz-transition: background-color .6s ease, color .6s ease;
 				-webkit-transition: background-color .6s ease, color .6s ease;
@@ -85,8 +107,12 @@
 				float: left;
 				width: 65%;
 				min-height: 906px;
-				background-color: rgba(0,0,255,.2);
-				padding: 20px;
+				padding: 40px;
+			}
+			.detail_term{
+				font-size: 40px;
+				font-weight: bold;
+				margin-bottom: 10px;
 			}
 			.footer{}
 		</style>
@@ -106,9 +132,10 @@
 
 				<div class="left_column">
 					<form id="master_form" action="" method="POST">
-						<input id="input_field" type="text" name="search_term" placeholder="Jargon"/>
-						<button id="search">Search</button><br>
-						<button id="add">Add Jargon</button>
+						<input id="input_field" type="text" name="search_term" placeholder="Term"/>
+						<input type="image" class="button" id="search" src="/img/search.png" alt="search">
+						<input id="def_field" type="text" name="definition" placeholder="Definition"/>
+						<button class="button" id="add">Add Jargon</button>
 					</form>
 					<div class="terms">
 						{{#each data}}
@@ -118,7 +145,6 @@
 				</div>
 
 				<div class="right_column">
-					DETAIL WILL GO HERE
 					{{{body}}}
 				</div>
 			</div>
@@ -126,7 +152,7 @@
 
 		<script type="text/javascript">
 			$(document).ready(function(){
-				$('#master_form').on('click', 'button', function() {
+				$('#master_form').on('click', '.button', function() {
 					var theRoute = "/" + $(this).attr('id');
 					$('#master_form').attr('action', theRoute);
 					console.log(theRoute);
@@ -135,6 +161,12 @@
 				$('.terms').on('click', 'div', function(){
 					$('.terms div').removeClass('active');
 					$(this).addClass('active');
+					var theTerm = $(this).text();
+					var theDefinitions = my_data.filter(function(v) {
+						return v.term == theTerm; // Filter out the appropriate one
+					})[0].definition; 
+					$('.detail_term').text(theTerm);
+					$('.detail_definitions').text(theDefinitions);
 				});
 				
 				$('.terms div:first-child').click();
