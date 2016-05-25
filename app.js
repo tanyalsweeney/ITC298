@@ -29,22 +29,22 @@ var startOuter = '<div style="font: 16px arial; color: #999; padding: 50px;">';
 var startInner = '<div style="font: bold 22px arial">';
 var endTag = '</div>';
 
-app.post('/search', function(req,res){
-    res.type("text/html");
-    var user_input = req.body.search_term;
-    var success = jargon.getJargon(user_input);
-    if(success == undefined) {
-        var fail_message = startOuter + 'Sorry.' 
-            + startInner + user_input + endTag
-            + 'not found.' + endTag;
-        res.send(fail_message);
-    } else {
-        var success_message = startOuter + 'Success!'
-            + startInner + success.term + endTag
-            + 'means ' + success.definition + endTag;
-        res.send(success_message);
-    }
-});
+// app.post('/search', function(req,res){
+//     res.type("text/html");
+//     var user_input = req.body.search_term;
+//     var success = jargon.getJargon(user_input);
+//     if(success == undefined) {
+//         var fail_message = startOuter + 'Sorry.' 
+//             + startInner + user_input + endTag
+//             + 'not found.' + endTag;
+//         res.send(fail_message);
+//     } else {
+//         var success_message = startOuter + 'Success!'
+//             + startInner + success.term + endTag
+//             + 'means ' + success.definition + endTag;
+//         res.send(success_message);
+//     }
+// });
 
 app.post('/update', function(req,res){
     res.type("text/html");
@@ -76,11 +76,13 @@ app.post('/add', function(req,res){
             + 'was not added.' + endTag;
         res.send(fail_message);
     } else {
-        var success_message = startOuter + 'Success!'
-            + startInner + success.term + endTag
-            + 'has been added! It means ' + success.definition + endTag;
+        res.type("text/html");
+        res.render('home', { data: jargon.getMaster(), json_data: JSON.stringify(jargon.getMaster()) });
+        // var success_message = startOuter + 'Success!'
+        //     + startInner + success.term + endTag
+        //     + 'has been added! It means ' + success.definition + endTag;
             
-        res.send(success_message);
+        // res.send(success_message);
     }
 });
 

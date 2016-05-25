@@ -16,13 +16,13 @@
 				width: 100%;
 				min-height: 1000px;
 				background-color: #ddd;
-				overflow: hidden;
 			}
 			.container{
 				width: 800px;
 				min-height: 1000px;
 				margin: 0 auto;
 				background-color: #fff;
+				overflow: hidden;
 			}
 			.top_nav{
 				background-color: #666;
@@ -152,10 +152,35 @@
 
 		<script type="text/javascript">
 			$(document).ready(function(){
-				$('#master_form').on('click', '.button', function() {
-					var theRoute = "/" + $(this).attr('id');
-					$('#master_form').attr('action', theRoute);
-					console.log(theRoute);
+				// $('#master_form').on('click', '.button', function() {
+				// 	var theRoute = "/" + $(this).attr('id');
+				// 	$('#master_form').attr('action', theRoute);
+				// 	console.log(theRoute);
+				// });
+				
+				//	Normalize case for jquery :contains selection
+				$.expr[":"].contains = $.expr.createPseudo(function(arg) {
+    				return function( elem ) {
+        				return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+    				};
+				});
+				
+				$('#add').click(function(e){
+					var theRoute = "/add";
+					$("#master_form").attr('action', theRoute);
+				});
+				
+				$('#search').click(function(e){
+					e.preventDefault();
+					var theTerm = $('#input_field').val().toLowerCase();
+					var theEl = $('.terms div:contains("' + theTerm + '")');
+					if(theEl.length > 0) {
+						theEl.click();
+					} else {
+						$('.detail_term').text("Sorry.");
+						$('.detail_definitions').text(theTerm + " was not found.");
+					}
+					
 				});
 				
 				$('.terms').on('click', 'div', function(){
