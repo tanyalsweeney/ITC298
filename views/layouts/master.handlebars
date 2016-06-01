@@ -43,13 +43,17 @@
 				background-color: #fff;
 			}
 			#master_form{}
-			#input_field{
+			#input_field, #add_one_def{
 				display: inline-block;
 				width: 80%;
 				margin: 0 0 20px;
 				padding: 10px;
 				font-size: 16px;
 				border: 1px solid #666;
+			}
+			#add_one_def{
+				width: 100%;
+				margin: 25px 0 0;
 			}
 			#def_field{
 				display: block;
@@ -71,7 +75,7 @@
 			#search:hover{
 				cursor: pointer;
 			}
-			#add{
+			#add, #add_definition{
 			    display: block;
 				margin: 20px 0;
 				padding: 15px;
@@ -81,7 +85,7 @@
 				color: #666;
 				transition: color .4s ease, background-color .4s ease;
 			}
-			#add:hover{
+			#add:hover, #add_definition:hover{
 				background-color: #666;
 				color: #fff;
 			}
@@ -152,12 +156,7 @@
 
 		<script type="text/javascript">
 			$(document).ready(function(){
-				// $('#master_form').on('click', '.button', function() {
-				// 	var theRoute = "/" + $(this).attr('id');
-				// 	$('#master_form').attr('action', theRoute);
-				// 	console.log(theRoute);
-				// });
-				
+
 				//	Normalize case for jquery :contains selection
 				$.expr[":"].contains = $.expr.createPseudo(function(arg) {
     				return function( elem ) {
@@ -184,6 +183,7 @@
 				});
 				
 				$('.terms').on('click', 'div', function(){
+					$('.detail_definitions').empty();
 					$('.terms div').removeClass('active');
 					$(this).addClass('active');
 					var theTerm = $(this).text();
@@ -191,7 +191,9 @@
 						return v.term == theTerm; // Filter out the appropriate one
 					})[0].definition; 
 					$('.detail_term').text(theTerm);
-					$('.detail_definitions').text(theDefinitions);
+					for(var i = 0; i < theDefinitions.length; i++) {
+						$('.detail_definitions').append("<p>" + theDefinitions[i] + "</p>");
+					};
 				});
 				
 				$('.terms div:first-child').click();
