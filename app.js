@@ -15,7 +15,8 @@ app.use(express.static(__dirname + "/public"));
 
 app.get('/', function(req,res){
     res.type("text/html");
-    res.render('home', { data: jargon.getMaster(), json_data: JSON.stringify(jargon.getMaster()) });
+    res.render('home', { data: jargon.getMaster(),
+                    json_data: JSON.stringify(jargon.getMaster()) });
 });
 
 app.get('/about', function(req,res){
@@ -67,13 +68,15 @@ app.post('/add', function(req,res){
         res.send(fail_message);
     } else {
         res.type("text/html");
-        res.render('home', { data: jargon.getMaster(), json_data: JSON.stringify(jargon.getMaster()) });
+        res.render('home', { data: jargon.getMaster(),
+                        json_data: JSON.stringify(jargon.getMaster()) });
     }
 });
 
 app.post('/remove', function(req,res){
     res.type("text/html");
     var user_term = req.body.search_term;
+    console.log("The user term is " + user_term);
     var term_exists = jargon.getJargon(user_term);
     var success = jargon.removeJargon(user_term);
     if(success == undefined || term_exists == undefined) {
@@ -81,10 +84,12 @@ app.post('/remove', function(req,res){
             + startInner + user_term + endTag + endTag;
         res.send(fail_message);
     } else {
-        var success_message = startOuter + 'Success!'
-            + startInner + user_term + endTag
-            + 'has been removed!' + endTag;
-        res.send(success_message);
+        res.render('home', { data: jargon.getMaster(),
+                        json_data: JSON.stringify(jargon.getMaster()) });
+        // var success_message = startOuter + 'Success!'
+        //     + startInner + user_term + endTag
+        //     + 'has been removed!' + endTag;
+        // res.send(success_message);
     }
 });
 

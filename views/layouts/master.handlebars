@@ -210,9 +210,12 @@
 				$('.terms').on('click', 'span', function(e){
 					e.stopPropagation();
 					var term_to_delete = $(this).attr('term');
+					$('#input_field').val(term_to_delete);
+					console.log(term_to_delete);
 					var theRoute = "/remove";
 					$("#master_form").attr('action', theRoute);
-					$('.terms div:first-child').click();
+					$('#master_form').submit();
+					//$('.terms div:first-child').click();
 				});
 				
 				//	A delegated click handler for selecting a term.
