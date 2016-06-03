@@ -56,7 +56,8 @@ app.post("/add_definition", function(req,res){
 app.post('/add', function(req,res){
     res.type("text/html");
     var user_term = req.body.search_term;
-    var user_definition = req.body.definition;
+    var user_definition = [];
+    user_definition.push(req.body.definition);
     var term_exists = jargon.getJargon(user_term);
     var success = jargon.addJargon(user_term,user_definition);
     if(success == undefined || term_exists != undefined) {

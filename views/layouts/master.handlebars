@@ -75,7 +75,7 @@
 			#search:hover{
 				cursor: pointer;
 			}
-			#add, #add_definition{
+			#add, #update_definition{
 			    display: block;
 				margin: 20px 0;
 				padding: 15px;
@@ -85,7 +85,7 @@
 				color: #666;
 				transition: color .4s ease, background-color .4s ease;
 			}
-			#add:hover, #add_definition:hover{
+			#add:hover, #update_definition:hover{
 				background-color: #666;
 				color: #fff;
 			}
@@ -95,12 +95,31 @@
 				min-height: 680px;
 			}
 			.terms div {
+				position: relative;
 				line-height: 2;
 				padding: 5px 15px;
 				border-bottom: 1px solid #fff;
 				transition: background-color .6s ease, color .6s ease;
 				-moz-transition: background-color .6s ease, color .6s ease;
 				-webkit-transition: background-color .6s ease, color .6s ease;
+			}
+			.terms span{
+				position: absolute;
+				display: inline-block;
+				right: 10px;
+				font-weight: bold;
+				cursor: pointer;
+				line-height: 2;
+				padding: 0 10px;
+				color: #666;
+				background-color: transparent;
+				transition: color .6s ease;
+				-moz-transition: color .6s ease;
+				-webkit-transition: color .6s ease;
+			}
+			.terms div:hover span,
+			.terms div.active span{
+				color: #fff;
 			}
 			.terms div:hover,
 			.terms div.active{
@@ -117,6 +136,11 @@
 				font-size: 40px;
 				font-weight: bold;
 				margin-bottom: 10px;
+			}
+			.detail_definition{
+				width: 100%;
+				padding: 5px 10px;
+				margin: 0 0 10px -10px;
 			}
 			.footer{}
 		</style>
@@ -143,7 +167,7 @@
 					</form>
 					<div class="terms">
 						{{#each data}}
-							<div>{{term}}</div>
+							<div>{{term}}<span term="{{term}}">X</span></div>
 						{{/each}}
 					</div>
 				</div>
@@ -182,19 +206,35 @@
 					
 				});
 				
+				//	Delete a term from the master page
+				$('.terms').on('click', 'span', function(e){
+					e.stopPropagation();
+					var term_to_delete = $(this).attr('term');
+					var theRoute = "/remove";
+					$("#master_form").attr('action', theRoute);
+					$('.terms div:first-child').click();
+				});
+				
+				//	A delegated click handler for selecting a term.
 				$('.terms').on('click', 'div', function(){
 					$('.detail_definitions').empty();
 					$('.terms div').removeClass('active');
 					$(this).addClass('active');
 					var theTerm = $(this).text();
+					theTerm = theTerm.slice(0,-1);
+					console.log(theTerm);
 					var theDefinitions = my_data.filter(function(v) {
 						return v.term == theTerm; // Filter out the appropriate one
 					})[0].definition; 
 					$('.detail_term').text(theTerm);
 					for(var i = 0; i < theDefinitions.length; i++) {
-						$('.detail_definitions').append("<p>" + theDefinitions[i] + "</p>");
+						$('.detail_definitions')
+							.append('<div class="detail_definition" contenteditable="true">'
+							+ theDefinitions[i] + '</div>');
 					};
 				});
+				
+				
 				
 				$('.terms div:first-child').click();
 			});

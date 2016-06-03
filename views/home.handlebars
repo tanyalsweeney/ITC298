@@ -1,25 +1,35 @@
 <div class="detail_term" name="detail_term"></div>
 <div class="detail_definitions"></div>
-<input id="add_one_def" type="text" name="add_one_def" placeholder="Definition"/>
-<button class="button" id="add_definition">Add a definition to this term</button>
+<input id="add_one_def" type="text" name="add_one_def" placeholder="New definition"/>
+<button class="button" id="update_definition">Update definition(s) for this term</button>
 
 <script type="text/javascript">
 	$(document).ready(function(){
 		var displayTerm = $('.active').text();
 		
-		$('#add_definition').click(function(e){
+		$('#update_definition').click(function(e){
 			var theRoute = "/add_definition";
 			$("#master_form").attr('action', theRoute);
 			var theTerm = $('.detail_term').text();
 			var theNewDef = $('#add_one_def').val();
-			$('.detail_definitions').append('<p>' + theNewDef + '</p>');
+			if(theNewDef != "") {
+				$('.detail_definitions').
+					append('<div class="detail_definition" contenteditable="true">'
+					+ theNewDef + '</div>');
+			};
+			
 			$('#add_one_def').val('');
+			
+			var theDefDivs = $('.detail_definition');
+			var updated_defs = [];
+			theDefDivs.each(function(){
+				updated_defs.push($(this).text());
+			});
 			
 			//	Loop through data payload and add definition to term
 			for(var i = 0; i < my_data.length; i++) {
 				if(my_data[i].term == theTerm) {
-					my_data[i].definition.push(theNewDef);
-					console.log(my_data[i].term + ': ' + theTerm);
+					my_data[i].definition = updated_defs;
 				}
 			}
 		});
