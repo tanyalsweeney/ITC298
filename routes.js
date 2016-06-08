@@ -68,6 +68,28 @@ module.exports = function(app){
         }
     });
     
+    
+    
+    
+    
+    app.get('/api/dictionary', function(req,res){
+        var dictionary = jargon.getMaster();
+        if(dictionary) {
+            res.json(dictionary);
+        } else {
+            return res.sttus(500).send('error occurred: database error.');
+        }
+    });
+    
+    app.get('/api/term/:term', function(req,res){
+        var term = jargon.getTerm(req.params.term);
+        if(term) {
+            res.json(term);
+        } else {
+            return res.sttus(500).send('error occurred: database error.');
+        }
+    });
+    
     app.use(function(req, res, next){
         res.status(404);
         res.type("text/html");

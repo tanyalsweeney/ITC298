@@ -10,6 +10,7 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.json()); //  support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true}));  //  support encoded bodies
 app.use(express.static(__dirname + "/public"));
+app.use('/api', require('cors')());
 
 var routes = require('./routes.js')(app); // passes ‘app’ instance to the routes module
 
