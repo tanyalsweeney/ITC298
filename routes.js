@@ -8,7 +8,7 @@ module.exports = function(app){
         res.render('home', { data: jargon.getMaster(),
                         json_data: JSON.stringify(jargon.getMaster()) });
     });
-    
+
     app.post('/update', function(req,res){
         res.type("text/html");
         var user_term = req.body.search_term;
